@@ -1,0 +1,10 @@
+.sidePage {
+  background-image: url("/src/assets/img/amalitech.png");
+  height: 100vh;
+  background-color: #d95a27;
+  background-repeat: no-repeat;
+}
+
+.formpage {
+  background-color: whitesmoke;
+}
