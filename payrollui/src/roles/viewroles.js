@@ -152,7 +152,7 @@ class ViewRoles extends Component{
 
                 {/* add role button clicked  show modal*/}
                 <Button variant="success my-2 py-1" size="lg" onClick={() => this.showaddRoleModal()}>
-                      <span><FontAwesomeIcon icon={faPlus}/>Add New Role</span>  
+                      <span><FontAwesomeIcon icon={faPlus} spin/>Add New Role</span>  
                 </Button>
 
                 {/* modal content to add a new role */}

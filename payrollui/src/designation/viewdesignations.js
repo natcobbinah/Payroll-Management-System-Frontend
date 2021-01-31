@@ -138,7 +138,7 @@ class ViewDesignations extends Component{
     render(){
         const{result,error,page = 0,deleteDesFailure,deleteDesSuccess,show,
             showModal,showAddModal, designationname, onUpdateSuccess,onUpdateError,
-            showforUpdateAlert,designationnamenew,pageDept,deptResult,
+            showforUpdateAlert,designationnamenew,pageDept = 0,deptResult,
             deptError,addResult,addError,showforAddDesignation} = this.state;
         return(
             <Container fluid>
@@ -159,7 +159,7 @@ class ViewDesignations extends Component{
 
                 {/* Button to show add new designation================================================ */}
                 <Button variant="success my-2 py-1" size="lg" onClick={() => this.showAddDesignation()}>
-                      <span><FontAwesomeIcon icon={faPlus}/>Add Designation</span>  
+                      <span><FontAwesomeIcon icon={faPlus} spin/>Add Designation</span>  
                 </Button>
                 {/* Button to show add new designation================================================ */}
 

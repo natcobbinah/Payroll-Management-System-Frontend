@@ -4,7 +4,7 @@ import {PATHBASE,PATH_GETALL_DESIGNATION,PATHGETALLUSERS,
         PARAM_PAGE,PATH_ASSIGNUSERDESIGNATION} from '../API_URLS';
 import {Form,Col,Container,Button,Alert} from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowRight,faArrowLeft,faEdit,faTrash,faPlus} from '@fortawesome/free-solid-svg-icons'
+import { faArrowRight,faArrowLeft,faEdit,faTrash,faPlus, faCoffee} from '@fortawesome/free-solid-svg-icons'
 
 const searchForUser = searchUser => user =>
     user.name.toLowerCase().includes(searchUser.toLowerCase());
@@ -74,6 +74,7 @@ class AssignDesignations extends Component{
             resultDesignationAssign,errorDesignationAssign,show} = this.state;
         return(
             <Container fluid>
+                <span> <FontAwesomeIcon icon={faCoffee}/>ASSIGNING DESIGNATIONS</span>
                  {resultDesignationAssign?
                 <Alert show={show} variant="success" onClose={(event) => this.setState({show:false})} dismissible>
                   <Alert.Heading>User Assigned Designation Successfully</Alert.Heading>

@@ -1,7 +1,7 @@
 import React,{Component} from 'react'
 import { Container, Jumbotron, Nav,Navbar,NavDropdown,
     Card,CardDeck,CardGroup,CardColumns,ListGroup,Row,Col } from 'react-bootstrap';
-import {Link,Route,Switch} from 'react-router-dom'
+import {Link,Route,Switch,Redirect} from 'react-router-dom'
 
 import ViewUsers from '../users/viewusers'
 import AddUser from '../users/adduser'
@@ -27,7 +27,7 @@ class Dashboard extends Component{
                     <Nav.Link href="#pricing">Pricing</Nav.Link>
                      </Nav>
                     <Nav>
-                    <Nav.Link  href="#memes">Logout</Nav.Link>
+                    <Nav.Link><Link to="/">Logout</Link></Nav.Link>
                 </Nav>
             </Navbar.Collapse>
             </Navbar>
@@ -66,20 +66,6 @@ class Dashboard extends Component{
                         </NavDropdown>
                  </ListGroup.Item>
                  <ListGroup.Item>
-                        <NavDropdown title="Designation" id="collasible-nav-dropdown">
-                        <NavDropdown.Item>
-                           <Link to="/main/dashboard/designations/viewdesignations">
-                              View Designations
-                            </Link>
-                        </NavDropdown.Item>
-                        <NavDropdown.Item>
-                           <Link to="/main/dashboard/designations/assigndesignations">
-                              Assign Designations
-                           </Link>
-                        </NavDropdown.Item>
-                        </NavDropdown>
-                </ListGroup.Item>
-                 <ListGroup.Item>
                         <NavDropdown title="Departments" id="collasible-nav-dropdown">
                         <NavDropdown.Item>
                             <Link to="/main/dashboard/departments/viewdepartments">
@@ -90,6 +76,20 @@ class Dashboard extends Component{
                             <Link to="/main/dashboard/departments/assigndepartments">
                                  Assign Departments
                             </Link>
+                        </NavDropdown.Item>
+                        </NavDropdown>
+                </ListGroup.Item>
+                 <ListGroup.Item>
+                        <NavDropdown title="Designation" id="collasible-nav-dropdown">
+                        <NavDropdown.Item>
+                           <Link to="/main/dashboard/designations/viewdesignations">
+                              View Designations
+                            </Link>
+                        </NavDropdown.Item>
+                        <NavDropdown.Item>
+                           <Link to="/main/dashboard/designations/assigndesignations">
+                              Assign Designations
+                           </Link>
                         </NavDropdown.Item>
                         </NavDropdown>
                 </ListGroup.Item>
@@ -125,6 +125,9 @@ class Dashboard extends Component{
                             <Route path="/main/dashboard/departments/assigndepartments" component={AssignDepartments}/>
                             <Route path="/main/dashboard/benefits/viewbenefits" component={ViewBenefits}/>
                             <Route path="/main/dashboard/benefits/assignbenefits" component={AssignBenefits}/>
+                            
+                            {/* default page to render on dashboard */}
+                            <Redirect from="*" to="/main/dashboard/users/viewusers"/>
                         </Switch>
                     </Card.Body>
                 </Card>

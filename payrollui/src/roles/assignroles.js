@@ -4,7 +4,7 @@ import {PATHBASE,PATH_GET_ROLES,PATHGETALLUSERS,
         PARAM_PAGE,PATH_ASSIGNUSERROLES} from '../API_URLS';
 import {Form,Col,Container,Button,Alert} from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowRight,faArrowLeft,faEdit,faTrash,faPlus} from '@fortawesome/free-solid-svg-icons'
+import { faArrowRight,faArrowLeft,faEdit,faTrash,faPlus,faCoffee} from '@fortawesome/free-solid-svg-icons'
 
 const searchForUser = searchUser => user =>
     user.name.toLowerCase().includes(searchUser.toLowerCase());
@@ -74,6 +74,8 @@ class AssignRoles extends Component{
             resultRoleAssign,errorRoleAssign,show} = this.state;
         return(
             <Container fluid>
+                <span> <FontAwesomeIcon icon={faCoffee}/>ASSIGNING Roles</span>
+
                  {resultRoleAssign?
                 <Alert show={show} variant="success" onClose={(event) => this.setState({show:false})} dismissible>
                   <Alert.Heading>User Assigned Role Successfully</Alert.Heading>
