@@ -17,8 +17,8 @@ import AssignBenefits from '../benefits/assignbenefit'
 class Dashboard extends Component{
     render(){
         return(
-            <Container fluid className="mt-2">
-            <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+            <Container fluid className="my-4 py-5">
+            <Navbar fixed="top" collapseOnSelect expand="lg" bg="dark" variant="dark">
             <Navbar.Brand href="#home">PAYROLL USER MANAGEMENT SYSTEM</Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
