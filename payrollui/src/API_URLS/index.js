@@ -42,15 +42,24 @@ export const PATH_GET_ALL_USERBENEFITS = '/test/userbenefit';
 export const PATH_DELETE_USERBENEFIT = '/test/deleteuserbenefit';
 export const PATH_POST_USERBENEFIT = '/test/userbenefit';
 export const PATH_PATCH_USERBENEFIT = '/test/userbenefit';
+export const PATH_ADD_USERBENEFIT = '/test/userbenefit';
 
+//ALL KEY INFORMATION ABOUT USERS
+export const PATH_GETUSERROLESONLY = '/test/getAllUserRolesOnly';
+export const PATH_GETUSERBENEFITSONLY = '/test/getAllUserBenefitsOnly';
+export const PATH_GETUSERDEPARTMENTONLY = '/test/getAllUserDepartmentsOnly';
+export const PATH_GETUSERDESIGNATIONSONLY = '/test/getAllUserDesignationOnly';
+export const PATH_GETUSERDETAILSONLY = '/test/getAllUserInfoOnly';
+
+//test/getAllUserRolesOnly/{email}
+//test/getAllUserBenefitsOnly/{email}
+//test/getAllUserDepartmentsOnly/{email}
+//test/getAllUserDesignationOnly/{email}
+//test/getAllUserInfoOnly/{email}
 //end new endpoints corrected
-
 
 export const PATH_DISABLEUSER = '/test/disableusers';
 export const PARAM_DISABLE = 'useridvalues=';
-
-
-
 export const PATH_FINDUSERBY_EMAIL = '/test/useremail';
 export const PATH_SENDLOGINDETAILS = '/test/sendemail';
 export const PATH_LOGINMESSAGE = 'Login with your email and your password is';

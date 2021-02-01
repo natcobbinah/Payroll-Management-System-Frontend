@@ -14,6 +14,9 @@ import AssignDepartments from '../departments/assigndepartments'
 import ViewBenefits from '../benefits/viewbenefits'
 import AssignBenefits from '../benefits/assignbenefit'
 
+import ClipLoader from 'react-spinners'
+import {css} from '@emotion/core'
+
 class Dashboard extends Component{
     render(){
         return(
@@ -27,7 +30,18 @@ class Dashboard extends Component{
                     <Nav.Link href="#pricing">#</Nav.Link>
                      </Nav>
                     <Nav>
-                    <Nav.Link><Link to="/">Logout</Link></Nav.Link>
+                    <NavDropdown title="Settings" id="collasible-nav-dropdown">
+                        <NavDropdown.Item>
+                            <Link to="/">
+                                 Logout
+                            </Link>
+                        </NavDropdown.Item>
+                        <NavDropdown.Item>
+                             <Link to="#">
+                                 UserProfile
+                            </Link>
+                        </NavDropdown.Item>
+                        </NavDropdown>
                 </Nav>
             </Navbar.Collapse>
             </Navbar>

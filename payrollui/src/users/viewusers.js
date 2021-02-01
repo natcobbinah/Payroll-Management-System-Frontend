@@ -1,4 +1,4 @@
-import { Container,Button,Alert,Modal,Form,Col} from "react-bootstrap"
+import { Container,Button,Alert,Modal,Form,Col,Spinner} from "react-bootstrap"
 import React,{Component} from  'react'
 import axios from 'axios'
 import {PATHBASE,PATHGETALLUSERS,PARAM_PAGE,PATH_DELETEUSER
@@ -257,7 +257,11 @@ class ViewUsers extends Component{
                         }
                     </tbody>
                   </Table>
-                 : null
+                 : 
+                 <Button variant="success" disabled className="mr-2">
+                     <Spinner as="span" animation="grow" size="sm" role="status" aria-hidden="true"/>
+                     Loading...
+                 </Button>
                 }
                 <Button variant="primary" onClick={() => this.fetchAllUsers(page - 1)}>
                     <FontAwesomeIcon icon={faArrowLeft}/>

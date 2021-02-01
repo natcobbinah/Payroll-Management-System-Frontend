@@ -8,3 +8,8 @@
 .formpage {
   background-color: white;
 }
+
+.rightSightNav {
+  background-image: url("/src/assets/img/amalitechplain.png");
+  background-repeat: no-repeat;
+}

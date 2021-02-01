@@ -63,7 +63,7 @@ class ViewBenefits extends Component{
         this.showaddBenefitModal = this.showaddBenefitModal.bind(this);
         this.addBenefittoDB = this.addBenefittoDB.bind(this);
         this.multipleselectHandler =this.multipleselectHandler.bind(this);
-        this.multipleselectHandlerDept = this.multipleselectHandlerDept.bind(this);
+        /* this.multipleselectHandlerDept = this.multipleselectHandlerDept.bind(this); */
         this.clearModalFields = this.clearModalFields.bind(this);
     }
 
@@ -110,7 +110,7 @@ class ViewBenefits extends Component{
         })
     }
 
-    multipleselectHandlerDept(event){
+  /*   multipleselectHandlerDept(event){
         const selectedDept=[];
         let selectedOption = (event.target.selectedOptions);
 
@@ -120,18 +120,18 @@ class ViewBenefits extends Component{
         this.setState({
             selectedDepartments:selectedDept
         })
-    }
+    } */
 
     addBenefittoDB(){
         const{benefitname,calculatedamount,flatamount,
-        percentageonCalcamount,selectedDesignations,selectedDepartments} = this.state;
+        percentageonCalcamount,selectedDesignations} = this.state;
         
         let selectedFrequency = document.getElementById('frequencyId').value;
         let computationsonCalculatedAmount = ((+percentageonCalcamount/100) * +calculatedamount)
 
-         ///test/benefit/{benefitname}/{calculatedamount}/{flatamount}/{frequency}/{percentagevalue}/{departments}
+       // "/test/benefit/{benefitname}/{calculatedamount}/{flatamount}/{frequency}/{percentagevalue}/{designations}"
         axios.post(`${PATHBASE}${PATH_POST_BENEFIT}/${benefitname}/${computationsonCalculatedAmount}/${flatamount}/
-              ${selectedFrequency}/${percentageonCalcamount}/${selectedDepartments}?${NO_OF_DESIGNATIONS}${selectedDesignations}`) 
+              ${selectedFrequency}/${percentageonCalcamount}?${NO_OF_DESIGNATIONS}${selectedDesignations}`) 
              .then(onPostSuccess => this.setState({onPostSuccess: onPostSuccess.data}))
              .catch(onPostFailure => this.setState({onPostFailure}));    
     }
@@ -319,21 +319,6 @@ class ViewBenefits extends Component{
                                    </Button>
                                 </Col>
                             </Form.Row>
-                            <Form.Row>
-                                <Col>
-                                     <Form.Label>Select Department(s)</Form.Label>
-                                </Col>
-                            </Form.Row>
-                            <Form.Row>
-                                <Form.Control as="select" multiple id="deptid" onChange={this.multipleselectHandlerDept}>
-                                {resultDept ?
-                                 resultDept.content.map(department => (
-                                   <option value={department.id}>{department.departmentname}</option>
-                                 ))
-                                : null
-                                }   
-                                </Form.Control>
-                            </Form.Row>
                         </Form>
                         <Form.Row>
                             <Col>
@@ -357,9 +342,9 @@ class ViewBenefits extends Component{
                                <th>FREQUENCY</th>
                                <th>AMOUNT FLAT</th>
                                <th>AMOUNT CALCULATED</th>
+                               <th>%AMOUNT CALCULATED</th>
                                <th>DESIGNATION NAME</th>
                                <th>DESIGNATION DEPT NAME</th>
-                               <th>DEPARTMENT NAMES</th>
                                <th>ACTION</th>
                            </tr>
                        </thead>
@@ -370,6 +355,7 @@ class ViewBenefits extends Component{
                                    <td>{benefit.frequency}</td>
                                    <td>{benefit.flatamount}</td>
                                    <td>{benefit.calculatedamount}</td>
+                                   <td>{benefit.percentagevalue}</td>
                                    <td>{benefit.designation?
                                         benefit.designation.designationname
                                         :null
@@ -380,11 +366,6 @@ class ViewBenefits extends Component{
                                         :null
                                       }
                                    </td>
-                                   <td>{benefit.department?
-                                       benefit.department.departmentname
-                                       :null
-                                      }
-                                    </td>
                                    <td>
                                        <Button variant="danger mx-1" onClick={() => this.onDelete(benefit.id)}>
                                            <FontAwesomeIcon icon={faTrash}/>
