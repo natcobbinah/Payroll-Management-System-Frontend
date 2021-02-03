@@ -16,13 +16,17 @@ import AssignBenefits from '../benefits/assignbenefit'
 
 import ClipLoader from 'react-spinners'
 import {css} from '@emotion/core'
+import './header.css'
 
 class Dashboard extends Component{
     render(){
         return(
             <Container fluid className="my-4 py-5">
-            <Navbar fixed="top" collapseOnSelect expand="lg" bg="dark" variant="dark">
-            <Navbar.Brand href="#home">PAYROLL USER MANAGEMENT SYSTEM</Navbar.Brand>
+            <Navbar fixed="top" collapseOnSelect expand="lg" className="navbar-custom" variant="dark" >
+            <Navbar.Brand href="#home">
+            <img
+              alt="" src="/assets/img/amalicon.JPG" width="30" height="30" className="d-inline-block align-top"/>{' '}
+            </Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className="mr-auto">
@@ -48,7 +52,7 @@ class Dashboard extends Component{
 
             <Row>
              <Col md={3}>
-              <Card style={{ width: '18rem' }} className="mt-2">
+              <Card style={{ width: '18rem' }} className="mt-4" >
                 <Card.Header>OPERATIONS</Card.Header>
                  <ListGroup variant="flush">
                  <ListGroup.Item>
@@ -61,6 +65,11 @@ class Dashboard extends Component{
                         <NavDropdown.Item>
                              <Link to="/main/dashboard/users/addusers">
                                  Add User
+                            </Link>
+                        </NavDropdown.Item>
+                        <NavDropdown.Item>
+                             <Link to="/main/userprofile">
+                                 ViewUser Details
                             </Link>
                         </NavDropdown.Item>
                         </NavDropdown>
@@ -125,7 +134,7 @@ class Dashboard extends Component{
               </Card>
              </Col>
 
-             <Col md={9} className="mt-2">
+             <Col md={9} className="mt-4">
                 <Card>
                     <Card.Body>
                         <Switch>

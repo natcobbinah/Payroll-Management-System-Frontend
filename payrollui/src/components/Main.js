@@ -2,7 +2,7 @@ import React,{Component} from 'react'
 import {Switch,Route,Redirect} from 'react-router-dom'
 
 import Dashboard from './Dashboard'
-import UserProfile from '../users/userprofile'
+import UserProfile from '../users/userdetails'
 
 class Main extends Component{
     render(){

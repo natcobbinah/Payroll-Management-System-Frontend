@@ -10,7 +10,7 @@ class App extends Component{
         <BrowserRouter>
            <Switch>
               <Route exact path="/" component={LoginForm}/>
-              <Route path="/main" component={Main}/>
+              <Route path="/main/dashboard" component={Main}/>
            </Switch>
         </BrowserRouter>
     );

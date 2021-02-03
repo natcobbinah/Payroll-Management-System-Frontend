@@ -203,44 +203,44 @@ class ViewDepartments extends Component{
                 {/* end add new department modal ======================================================*/}
 
                 {deptfetchSuccess?
-                   <Table responsive="sm" striped bordered hover size="sm">
-                   <thead>
-                       <tr>
-                           <th>DEPARTMENT CODE</th>
-                           <th>DEPARTMENT NAME</th>
-                           <th>ACTION</th>
-                       </tr>
-                   </thead>
-                   <tbody>
-                       {deptfetchSuccess.content.map(department => 
-                            <tr key={department.id}>
-                               <td>{department.departmentid}</td>
-                               <td>{department.departmentname}</td>
-                               <td>
-                                   <Button variant="secondary mx-1" onClick={() => this.onEditDepartment(
-                                     department.id,department.departmentid,department.departmentname
-                                   )}>
-                                     <FontAwesomeIcon icon={faEdit}/>
-                                   </Button>
-                                   <Button variant="danger mx-1" onClick={() => this.onDelete(department.id)}>
-                                     <FontAwesomeIcon icon={faTrash}/>
-                                   </Button>
-                               </td>
-                           </tr>
-                        )
-                       }
-                   </tbody>
-                 </Table>
-                : null
-                  }
-                <Button variant="primary" onClick={() => this.fetchAllDepartments(page - 1)}>
-                    <FontAwesomeIcon icon={faArrowLeft}/>
-                     Prev
+                    <Table responsive="sm" striped bordered hover size="sm">
+                    <thead>
+                        <tr>
+                            <th>DEPARTMENT CODE</th>
+                            <th>DEPARTMENT NAME</th>
+                            <th>ACTION</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {deptfetchSuccess.content.map(department => 
+                                <tr key={department.id}>
+                                <td>{department.departmentid}</td>
+                                <td>{department.departmentname}</td>
+                                <td>
+                                    <Button variant="secondary mx-1" onClick={() => this.onEditDepartment(
+                                        department.id,department.departmentid,department.departmentname
+                                    )}>
+                                        <FontAwesomeIcon icon={faEdit}/>
+                                    </Button>
+                                    <Button variant="danger mx-1" onClick={() => this.onDelete(department.id)}>
+                                        <FontAwesomeIcon icon={faTrash}/>
+                                    </Button>
+                                </td>
+                            </tr>
+                            )
+                        }
+                    </tbody>
+                    </Table>
+                    : null
+                    }
+                    <Button variant="primary" onClick={() => this.fetchAllDepartments(page - 1)}>
+                        <FontAwesomeIcon icon={faArrowLeft}/>
+                        Prev
+                    </Button>
+                    <Button variant="primary mx-3" onClick={() => this.fetchAllDepartments(page + 1)}>
+                    <FontAwesomeIcon icon={faArrowRight}/>
+                    Next
                 </Button>
-                <Button variant="primary mx-3" onClick={() => this.fetchAllDepartments(page + 1)}>
-                  <FontAwesomeIcon icon={faArrowRight}/>
-                   Next
-               </Button>
 
                {/* on edit button clicked===================================================*/}
                   <Modal show={showModalonEdit} size="lg" onHide={() => this.setState({showModalonEdit: false})} centered>

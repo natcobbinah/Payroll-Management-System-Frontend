@@ -74,7 +74,7 @@ class AssignDesignations extends Component{
             resultDesignationAssign,errorDesignationAssign,show} = this.state;
         return(
             <Container fluid>
-                <span> <FontAwesomeIcon icon={faCoffee}/>ASSIGNING DESIGNATIONS</span>
+                <span> <FontAwesomeIcon icon={faCoffee}/>ASSIGNING designations</span>
                  {resultDesignationAssign?
                 <Alert show={show} variant="success" onClose={(event) => this.setState({show:false})} dismissible>
                   <Alert.Heading>User Assigned Designation Successfully</Alert.Heading>
