@@ -1,12 +1,13 @@
 import React,{Component} from 'react'
 import axios from 'axios'
 import {Card,CardDeck,CardGroup,CardColumns,
-        Table,Form,Modal,Button,Col,Alert,Container,Row,NavDropdown,Navbar,Nav,FormControl} from 'react-bootstrap'
+        Table,Form,Modal,Button,Col,Alert,Container,Row,NavDropdown,
+        Navbar,Nav,FormControl,InputGroup} from 'react-bootstrap'
 import {PATHBASE,PATH_GETUSERROLESONLY,PATH_GETUSERBENEFITSONLY,
     PATH_GETUSERDEPARTMENTONLY,PATH_GETUSERDESIGNATIONSONLY,PATH_GETUSERDETAILSONLY} from '../API_URLS'
 import './header.css'
    
-class UserProfile extends Component{
+class UserDetails extends Component{
     constructor(props){
         super(props);
 
@@ -97,13 +98,18 @@ class UserProfile extends Component{
               showUserbenefits,showUserdepartment,showUserdesignation,showUserroles} = this.state;
         return(
             <Container fluid>
-                <Navbar  fixed="top" expand="lg"  className="mb-5 navbar-custom">
-                    <Navbar.Brand href="#home">UserDetails</Navbar.Brand> 
-                      <Form inline>
-                          <FormControl type="text" placeholder="Search by email" className="mr-sm-2" onChange={(e) => this.setState({searchEmail: e.target.value})}/>                       
-                          <Button variant="secondary" onClick={this.onSearchSubmit}>Search</Button> 
-                      </Form>
-                </Navbar>
+                <div>
+                  <InputGroup size="lg">
+                    <InputGroup.Prepend>
+                      <InputGroup.Text id="inputGroup-sizing-lg">Email</InputGroup.Text>
+                    </InputGroup.Prepend>
+                     <FormControl placeholder="Search by users email" aria-label="Large" aria-describedby="inputGroup-sizing-sm" 
+                          onChange={(e) => this.setState({searchEmail: e.target.value})}/>
+                     <InputGroup.Append>
+                     <Button variant="secondary" onClick={this.onSearchSubmit}>Search</Button> 
+                     </InputGroup.Append>
+                  </InputGroup>
+                 </div>
 
                 {errorUser?
                 <Alert className="mt-5" show={showUserdetails} variant="danger" onClose={(event) => this.setState({showUserdetails:false})} dismissible>
@@ -131,7 +137,7 @@ class UserProfile extends Component{
 
                 {errorDesignation?
                 <Alert className="mt-5" show={showUserdesignation} variant="danger" onClose={(event) => this.setState({showUserdesignation:false})} dismissible>
-                    <Alert.Heading>Unsuccessful  fetching User departments</Alert.Heading>
+                    <Alert.Heading>Unsuccessful  fetching User designations</Alert.Heading>
                     <p>Server might be down or currently not available</p>
                 </Alert> 
                  : null
@@ -139,70 +145,119 @@ class UserProfile extends Component{
 
                 {errorRole?
                 <Alert className="mt-5" show={showUserroles} variant="danger" onClose={(event) => this.setState({showUserroles:false})} dismissible>
-                    <Alert.Heading>Unsuccessful  fetching User departments</Alert.Heading>
+                    <Alert.Heading>Unsuccessful  fetching User roles</Alert.Heading>
                     <p>Server might be down or currently not available</p>
                 </Alert> 
                  : null
                 }
 
                 {resultUser?
-                   <Row className="mt-5">
-                   <Col md={2}></Col>
-                   <Col md={6}>
-                    <Card style={{ width: '68rem' }} className="text-center mt-2" border="danger">
-                      <Card.Header as="h5">PERSONAL INFORMATION</Card.Header>
-                      <Card.Body>
-                          <Table responsive="sm"  bordered hover size="sm">
-                            <thead>
-                              <tr>
-                                 <th>Name</th>
-                                 <th>Address</th>
-                                 <th>Email</th>
-                                 <th>Birthdate</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                                <td>{resultUser.name}</td>
-                                <td>{resultUser.address}</td>
-                                <td>{resultUser.email}</td>
-                                <td>{resultUser.birthdate}</td>
-                            </tbody>
-
-                            <thead>
-                              <tr>
-                                 <th>Gender</th>
-                                 <th>Birthdate</th>
-                                 <th>City</th>
-                                 <th>PhoneNumber</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                                <td>{resultUser.gender}</td>
-                                <td>{resultUser.birthdate}</td>
-                                <td>{resultUser.city}</td>
-                                <td>{resultUser.phonenumber}</td>
-                            </tbody>
-
-                            <thead>
-                              <tr>
-                                 <th  colSpan="4">Marital Status</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                                <td  colSpan="4">{resultUser.maritalstatus}</td>
-                            </tbody>
-                          </Table>
-                      </Card.Body>
-                    </Card>
-                   </Col>
-                   <Col md={3}></Col>
-                  </Row>
+                   <PersonalInformation list={resultUser}/>
                   :null
                 }
 
                 {resultUser?
-                   <Row className="mt-2">
-                   <Col md={2}></Col>
+                   <NationalIdentificationCards list={resultUser}/>
+                  :null
+                }
+
+                {resultUser?
+                   <EmploymentDetails list={resultUser}/>
+                  :null
+                }
+
+                {resultUser?
+                  <BankDetails list={resultUser}/>
+                  :null
+                } 
+
+                {resultBenefit?
+                  <BenefitsforUser list={resultBenefit}/>
+                  :null
+                } 
+
+                {resultDepartment?
+                  <UsersDepartment list={resultDepartment}/>
+                 :null
+                } 
+
+                {resultDesignation?
+                  <Users_Designation list={resultDesignation}/>
+                 :null
+                } 
+
+                {resultRole?
+                  <Users_Role list={resultRole}/>
+                 :null
+                }   
+            </Container>
+        );
+    }
+}
+
+class PersonalInformation extends Component{
+  render(){
+    const{list}=this.props;
+    return(
+      <Row className="mt-2">
+      <Col md={6}>
+       <Card style={{ width: '68rem' }} className="text-center mt-2" border="danger">
+         <Card.Header as="h5">PERSONAL INFORMATION</Card.Header>
+         <Card.Body>
+             <Table responsive="sm"  bordered hover size="sm">
+               <thead>
+                 <tr>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Email</th>
+                    <th>Birthdate</th>
+                 </tr>
+               </thead>
+               <tbody>
+                   <td>{list.name}</td>
+                   <td>{list.address}</td>
+                   <td>{list.email}</td>
+                   <td>{list.birthdate}</td>
+               </tbody>
+
+               <thead>
+                 <tr>
+                    <th>Gender</th>
+                    <th>Birthdate</th>
+                    <th>City</th>
+                    <th>PhoneNumber</th>
+                 </tr>
+               </thead>
+               <tbody>
+                   <td>{list.gender}</td>
+                   <td>{list.birthdate}</td>
+                   <td>{list.city}</td>
+                   <td>{list.phonenumber}</td>
+               </tbody>
+
+               <thead>
+                 <tr>
+                    <th  colSpan="4">Marital Status</th>
+                 </tr>
+               </thead>
+               <tbody>
+                   <td  colSpan="4">{list.maritalstatus}</td>
+               </tbody>
+             </Table>
+         </Card.Body>
+       </Card>
+      </Col>
+      <Col md={3}></Col>
+     </Row>
+    );
+  }
+}
+
+class NationalIdentificationCards extends Component{
+  render(){
+    const{list}=this.props;
+    return(
+      <Row className="mt-2">
                    <Col md={6}>
                     <Card style={{ width: '68rem' }} className="text-center mt-2" border="danger">
                       <Card.Header as="h5">NATIONAL ID AND CERTS</Card.Header>
@@ -216,9 +271,9 @@ class UserProfile extends Component{
                               </tr>
                             </thead>
                             <tbody>
-                                <td>{resultUser.driverslicenseid}</td>
-                                <td>{resultUser.passportid}</td>
-                                <td>{resultUser.tinnumber}</td>
+                                <td>{list.driverslicenseid}</td>
+                                <td>{list.passportid}</td>
+                                <td>{list.tinnumber}</td>
                             </tbody>
                          
                             <thead>
@@ -229,9 +284,9 @@ class UserProfile extends Component{
                               </tr>
                             </thead>
                             <tbody>
-                                <td>{resultUser.marriagecertid}</td>
-                                <td>{resultUser.votersid}</td>
-                                <td>{resultUser.tinnumber}</td>
+                                <td>{list.marriagecertid}</td>
+                                <td>{list.votersid}</td>
+                                <td>{list.tinnumber}</td>
                             </tbody>
                           </Table>
                       </Card.Body>
@@ -239,12 +294,15 @@ class UserProfile extends Component{
                    </Col>
                    <Col md={3}></Col>
                   </Row>
-                  :null
-                }
+    );
+  }
+}
 
-                {resultUser?
-                   <Row className="mt-2">
-                   <Col md={2}></Col>
+class EmploymentDetails extends Component{
+  render(){
+    const{list} = this.props;
+    return(
+      <Row className="mt-2">
                    <Col md={6}>
                     <Card style={{ width: '68rem' }} className="text-center mt-2" border="danger">
                       <Card.Header as="h5">EMPLOYMENT DETAILS</Card.Header>
@@ -258,9 +316,9 @@ class UserProfile extends Component{
                               </tr>
                             </thead>
                             <tbody>
-                                <td>{resultUser.employeeid}</td>
-                                <td>{resultUser.employeelevel}</td>
-                                <td>{resultUser.hiredate}</td>
+                                <td>{list.employeeid}</td>
+                                <td>{list.employeelevel}</td>
+                                <td>{list.hiredate}</td>
                             </tbody>
                           </Table>
                       </Card.Body>
@@ -268,12 +326,15 @@ class UserProfile extends Component{
                    </Col>
                    <Col md={3}></Col>
                   </Row>
-                  :null
-                }
+    );
+  }
+}
 
-                {resultUser?
-                <Row className="mt-2">
-                <Col md={2}></Col>
+class BankDetails extends Component{
+  render(){
+    const{list}=this.props;
+    return(
+      <Row className="mt-2">
                 <Col md={6}>
                  <Card style={{ width: '68rem' }} className="text-center mt-2" border="danger">
                    <Card.Header as="h5">BANK DETAILS</Card.Header>
@@ -285,7 +346,7 @@ class UserProfile extends Component{
                            </tr>
                          </thead>
                          <tbody>
-                             <td>{resultUser.bankaccountnumber}</td>
+                             <td>{list.bankaccountnumber}</td>
                          </tbody>
                        </Table>
                    </Card.Body>
@@ -293,12 +354,15 @@ class UserProfile extends Component{
                 </Col>
                 <Col md={3}></Col>
                </Row>
-                 :null
-                } 
+    );
+  }
+}
 
-                {resultBenefit?
-                  <Row className="mt-2">
-                  <Col md={2}></Col>
+class BenefitsforUser extends Component{
+  render(){
+    const{list}=this.props;
+    return(
+      <Row className="mt-2">
                   <Col md={6}>
                    <Card  style={{ width: '68rem' }} className="text-center mt-2"  border="danger">
                      <Card.Header as="h5">USER BENEFIT</Card.Header>
@@ -316,7 +380,7 @@ class UserProfile extends Component{
                              </tr>
                            </thead>
                            <tbody>
-                           {resultBenefit.map(benefit => 
+                           {list.map(benefit => 
                               <tr key={benefit.id}>
                                    <td>{benefit.benefitname}</td>
                                    <td>{benefit.frequency}</td>
@@ -342,12 +406,15 @@ class UserProfile extends Component{
                   </Col>
                   <Col md={3}></Col>
                  </Row>
-                 :null
-                } 
+    );
+  }
+}
 
-                {resultDepartment?
-                  <Row className="mt-2">
-                  <Col md={2}></Col>
+class UsersDepartment extends Component{
+  render(){
+    const{list}=this.props;
+    return(
+      <Row className="mt-2">
                   <Col md={6}>
                    <Card style={{ width: '68rem' }} className="text-center mt-2" border="danger">
                      <Card.Header as="h5">USER DEPARTMENT</Card.Header>
@@ -360,7 +427,7 @@ class UserProfile extends Component{
                              </tr>
                            </thead>
                            <tbody>
-                           {resultDepartment.map(department => 
+                           {list.map(department => 
                              <tr key={department.id}>
                                <td>{department.departmentid}</td>
                                 <td>{department.departmentname}</td>
@@ -373,12 +440,15 @@ class UserProfile extends Component{
                   </Col>
                   <Col md={3}></Col>
                  </Row>
-                 :null
-                } 
+    );
+  }
+}
 
-                {resultDesignation?
-                  <Row className="mt-2">
-                   <Col md={2}></Col>
+class Users_Designation extends Component{
+  render(){
+    const{list} = this.props;
+    return(
+      <Row className="mt-2">
                    <Col md={6}>
                    <Card style={{ width: '68rem' }} className="text-center mt-2" border="danger">
                      <Card.Header as="h5">USER DESIGNATIONS</Card.Header>
@@ -391,7 +461,7 @@ class UserProfile extends Component{
                              </tr>
                            </thead>
                            <tbody>
-                           {resultDesignation.map(designation => 
+                           {list.map(designation => 
                              <tr key={designation.id}>
                                <td>{designation.designationname}</td>
                                <td>
@@ -409,40 +479,40 @@ class UserProfile extends Component{
                   </Col>
                   <Col md={3}></Col>
                  </Row>
-                 :null
-                } 
-
-                {resultRole?
-                   <Row className="mt-2">
-                   <Col md={2}></Col>
-                   <Col md={6}>
-                    <Card style={{ width: '68rem' }} className="text-center mt-2" border="danger">
-                      <Card.Header as="h5">USER ROLES</Card.Header>
-                      <Card.Body>
-                          <Table responsive="sm"  bordered hover size="sm">
-                            <thead>
-                              <tr>
-                                  <th>Roles</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                            {resultRole.map(role => 
-                              <tr key={role.roleid}>
-                                <td>{role.rolename}</td>
-                              </tr>
-                            )}
-                            </tbody>
-                          </Table>
-                      </Card.Body>
-                    </Card>
-                   </Col>
-                   <Col md={3}></Col>
-                  </Row>
-                 :null
-                }  
-            </Container>
-        );
-    }
+    );
+  }
 }
 
-export default UserProfile;
+class Users_Role extends Component{
+  render(){
+    const{list} = this.props;
+    return(
+      <Row className="mt-2">
+      <Col md={6}>
+       <Card style={{ width: '68rem' }} className="text-center mt-2" border="danger">
+         <Card.Header as="h5">USER ROLES</Card.Header>
+         <Card.Body>
+             <Table responsive="sm"  bordered hover size="sm">
+               <thead>
+                 <tr>
+                     <th>Roles</th>
+                 </tr>
+               </thead>
+               <tbody>
+               {list.map(role => 
+                 <tr key={role.roleid}>
+                   <td>{role.rolename}</td>
+                 </tr>
+               )}
+               </tbody>
+             </Table>
+         </Card.Body>
+       </Card>
+      </Col>
+      <Col md={3}></Col>
+     </Row>
+    );
+  }
+}
+
+export default UserDetails;

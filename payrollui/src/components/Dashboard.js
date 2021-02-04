@@ -1,6 +1,7 @@
 import React,{Component} from 'react'
 import { Container, Jumbotron, Nav,Navbar,NavDropdown,
-    Card,CardDeck,CardGroup,CardColumns,ListGroup,Row,Col } from 'react-bootstrap';
+    Card,CardDeck,CardGroup,CardColumns,ListGroup,Row,Col,Tabs,Tab,
+    TabContainer,TabContent,TabPane } from 'react-bootstrap';
 import {Link,Route,Switch,Redirect} from 'react-router-dom'
 
 import ViewUsers from '../users/viewusers'
@@ -13,9 +14,14 @@ import ViewDepartments from '../departments/viewdepartments'
 import AssignDepartments from '../departments/assigndepartments'
 import ViewBenefits from '../benefits/viewbenefits'
 import AssignBenefits from '../benefits/assignbenefit'
+import UserDetails from '../users/userdetails'
 
-import ClipLoader from 'react-spinners'
-import {css} from '@emotion/core'
+import UsersMain from '../users/usersmainTab'
+import RolesMain from '../roles/rolesmainTab'
+import DepartmentMain from '../departments/departmentmainTab'
+import DesignationMain from '../designation/designationmainTab'
+import BenefitMain from '../benefits/benefitmainTab'
+
 import './header.css'
 
 class Dashboard extends Component{
@@ -24,15 +30,14 @@ class Dashboard extends Component{
             <Container fluid className="my-4 py-5">
             <Navbar fixed="top" collapseOnSelect expand="lg" className="navbar-custom" variant="dark" >
             <Navbar.Brand href="#home">
-            <img
-              alt="" src="/assets/img/amalicon.JPG" width="30" height="30" className="d-inline-block align-top"/>{' '}
+             <img
+                width="75" height="75" className=" amalicon d-inline-block align-top"/> 
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
                 <Nav className="mr-auto">
-                  <Nav.Link href="#features">#</Nav.Link>
-                    <Nav.Link href="#pricing">#</Nav.Link>
-                     </Nav>
+                    PAYROLL MANAGEMENT SYSTEM
+                </Nav>
                     <Nav>
                     <NavDropdown title="Settings" id="collasible-nav-dropdown">
                         <NavDropdown.Item>
@@ -48,9 +53,27 @@ class Dashboard extends Component{
                         </NavDropdown>
                 </Nav>
             </Navbar.Collapse>
-            </Navbar>
+            </Navbar> 
 
-            <Row>
+            <Tabs className="mb-3">
+                <Tab eventKey="users" title="Users">
+                   <UsersMain/>
+                </Tab>
+                <Tab eventKey="roles" title="Roles">
+                  <RolesMain/>
+                </Tab>
+                <Tab eventKey="departments" title="Departments">
+                  <DepartmentMain/>
+                </Tab>
+                <Tab eventKey="designations" title="Designations">
+                    <DesignationMain/>
+                </Tab>
+                <Tab eventKey="benefits" title="Benefits">
+                    <BenefitMain/>
+                </Tab>
+            </Tabs>
+
+             {/* <Row>
              <Col md={3}>
               <Card style={{ width: '18rem' }} className="mt-4" >
                 <Card.Header>OPERATIONS</Card.Header>
@@ -68,7 +91,7 @@ class Dashboard extends Component{
                             </Link>
                         </NavDropdown.Item>
                         <NavDropdown.Item>
-                             <Link to="/main/userprofile">
+                             <Link to="/main/dashboard/users/viewuserdetails">
                                  ViewUser Details
                             </Link>
                         </NavDropdown.Item>
@@ -121,18 +144,16 @@ class Dashboard extends Component{
                         <NavDropdown.Item>
                             <Link to="/main/dashboard/benefits/viewbenefits">
                                  ViewBenefits
-                            </Link>
                         </NavDropdown.Item>
                         <NavDropdown.Item>
                            <Link to="/main/dashboard/benefits/assignbenefits">
-                                 AssignBenefits
                             </Link>
                         </NavDropdown.Item>
                         </NavDropdown>
                 </ListGroup.Item>
                 </ListGroup>
               </Card>
-             </Col>
+             </Col> 
 
              <Col md={9} className="mt-4">
                 <Card>
@@ -148,14 +169,16 @@ class Dashboard extends Component{
                             <Route path="/main/dashboard/departments/assigndepartments" component={AssignDepartments}/>
                             <Route path="/main/dashboard/benefits/viewbenefits" component={ViewBenefits}/>
                             <Route path="/main/dashboard/benefits/assignbenefits" component={AssignBenefits}/>
+                            <Route path="/main/dashboard/users/viewuserdetails" component={UserDetails}/>
+                           
                             
-                            {/* default page to render on dashboard */}
+                            {/* default page to render on dashboard 
                             <Redirect from="*" to="/main/dashboard/users/viewusers"/>
                         </Switch>
                     </Card.Body>
                 </Card>
              </Col>
-            </Row>
+            </Row>  */}
             </Container>
         );
     }

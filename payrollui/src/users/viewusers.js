@@ -233,7 +233,7 @@ class ViewUsers extends Component{
                                 <td>{user.ssnitid}</td>
                                 <td>{user.name}</td>
                                 <td>
-                                    <input type="checkbox" onChange={() => this.onSelected(user.id)}/>
+                                    <input type="checkbox" className="mx-2" onChange={() => this.onSelected(user.id)}/>
                                     <Button variant="primary mx-1" onClick={() => this.fetchAllUsers(page - 1)}>
                                       <FontAwesomeIcon icon={faToggleOn}/>
                                     </Button>

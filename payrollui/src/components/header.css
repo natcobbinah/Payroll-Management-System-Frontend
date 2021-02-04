@@ -2,3 +2,8 @@
   background-color: #d95a27;
   height: 10vh;
 }
+
+.amalicon {
+  background-image: url("/src/assets/img/amalicon.JPG");
+  background-repeat: no-repeat;
+}
