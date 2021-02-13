@@ -6,7 +6,7 @@ import {Container,Button,Table,Alert, Form,Col,Modal} from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight,faArrowLeft,faEdit,faTrash,faPlus} from '@fortawesome/free-solid-svg-icons'
 
-    
+import {fetchRolesAll} from '../API_URLS/apiCalls'
 
 class ViewRoles extends Component{
     constructor(props){
@@ -53,7 +53,10 @@ class ViewRoles extends Component{
     }
 
     fetchAllRoles(page = 0){
-        axios.get(`${PATHBASE}${PATH_GET_ROLES}?${PARAM_PAGE}${page}`)
+      /*   axios.get(`${PATHBASE}${PATH_GET_ROLES}?${PARAM_PAGE}${page}`) */
+            
+             //code refactoring performed here
+             fetchRolesAll(page)
              .then(result => this.setState({result: result.data}))
              .catch(error => this.setState({error}));
     }
@@ -124,7 +127,7 @@ class ViewRoles extends Component{
         const{result,error,page = 0,show,
              resultDel,errorDel,showModal,role_name,
              onUpdateSuccess,onUpdateError,addRoleShowModal,
-             rolename,resultRolepost,errorRolepost} = this.state;
+             resultRolepost,errorRolepost} = this.state;
         return(
            <Container fluid>
                {error?

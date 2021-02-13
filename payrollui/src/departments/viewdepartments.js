@@ -5,7 +5,8 @@ import {PATH_GET_DEPARTMENT,PARAM_PAGE,PATH_DELETE_DEPARTMENT,
 import {Container,Button,Table,Alert, Form,Col,Modal} from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight,faArrowLeft,faEdit,faTrash,faPlus} from '@fortawesome/free-solid-svg-icons'
-    
+
+import {fetchDepartmentsAll} from '../API_URLS/apiCalls'
 
 class ViewDepartments extends Component{
     constructor(props){
@@ -51,7 +52,9 @@ class ViewDepartments extends Component{
     }
 
     fetchAllDepartments(page = 0){
-        axios.get(`${PATHBASE}${PATH_GET_DEPARTMENT}?${PARAM_PAGE}${page}`)
+      /*   axios.get(`${PATHBASE}${PATH_GET_DEPARTMENT}?${PARAM_PAGE}${page}`) */
+      //code refactoring performed here
+             fetchDepartmentsAll(page)
              .then(deptfetchSuccess => this.setState({deptfetchSuccess: deptfetchSuccess.data}))
              .catch(deptfetchError => this.setState({deptfetchError}));
     }

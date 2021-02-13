@@ -1,6 +1,5 @@
 import React,{Component} from 'react'
-import {Tabs,Tab,Nav,Col,Row,
-    TabContainer,TabContent,TabPane } from 'react-bootstrap'
+import {Tab,Nav,Col,Row } from 'react-bootstrap'
 import ViewRoles from './viewroles'
 import AssignRoles from './assignroles'
 

@@ -6,6 +6,8 @@ import {Container,Button,Table,Alert, Form,Col,Modal} from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight,faArrowLeft,faEdit,faTrash,faPlus} from '@fortawesome/free-solid-svg-icons'
 
+import {fetchDesignationsAll} from '../API_URLS/apiCalls'
+
 class ViewDesignations extends Component{
     constructor(props){
         super(props);
@@ -61,7 +63,9 @@ class ViewDesignations extends Component{
     }
 
     fetchAllDesignations(page = 0){
-        axios.get(`${PATHBASE}${PATH_GETALL_DESIGNATION}?${PARAM_PAGE}${page}`)
+      /*   axios.get(`${PATHBASE}${PATH_GETALL_DESIGNATION}?${PARAM_PAGE}${page}`) */
+      //code refactoring performed here
+             fetchDesignationsAll(page)
              .then(result => this.setState({result: result.data}))
              .catch(error => this.setState({error}))
     }

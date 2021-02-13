@@ -55,20 +55,20 @@ class Dashboard extends Component{
             </Navbar.Collapse>
             </Navbar> 
 
-            <Tabs className="mb-3">
-                <Tab eventKey="users" title="Users">
+            <Tabs className="tab my-3">
+                <Tab  eventKey="users" title="Users">
                    <UsersMain/>
                 </Tab>
-                <Tab eventKey="roles" title="Roles">
+                <Tab  eventKey="roles" title="Roles">
                   <RolesMain/>
                 </Tab>
-                <Tab eventKey="departments" title="Departments">
+                <Tab  eventKey="departments" title="Departments">
                   <DepartmentMain/>
                 </Tab>
-                <Tab eventKey="designations" title="Designations">
+                <Tab  eventKey="designations" title="Designations">
                     <DesignationMain/>
                 </Tab>
-                <Tab eventKey="benefits" title="Benefits">
+                <Tab  eventKey="benefits" title="Benefits">
                     <BenefitMain/>
                 </Tab>
             </Tabs>

@@ -12,10 +12,10 @@ class DesignationMain extends Component{
               <Col sm={2}>
                 <Nav variant="pills" className="flex-column">
                   <Nav.Item>
-                    <Nav.Link eventKey="viewdesignations">View Departments</Nav.Link>
+                    <Nav.Link eventKey="viewdesignations">View Designations</Nav.Link>
                   </Nav.Item>
                   <Nav.Item>
-                    <Nav.Link eventKey="assigndesignations">Assign Department</Nav.Link>
+                    <Nav.Link eventKey="assigndesignations">Assign Designations</Nav.Link>
                   </Nav.Item>
                 </Nav>
               </Col>

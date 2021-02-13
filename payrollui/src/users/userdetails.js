@@ -1,10 +1,13 @@
 import React,{Component} from 'react'
 import axios from 'axios'
-import {Card,CardDeck,CardGroup,CardColumns,
-        Table,Form,Modal,Button,Col,Alert,Container,Row,NavDropdown,
-        Navbar,Nav,FormControl,InputGroup} from 'react-bootstrap'
+import {Card,Table,Button,Col,Alert,Container,Row,
+        FormControl,InputGroup} from 'react-bootstrap'
 import {PATHBASE,PATH_GETUSERROLESONLY,PATH_GETUSERBENEFITSONLY,
     PATH_GETUSERDEPARTMENTONLY,PATH_GETUSERDESIGNATIONSONLY,PATH_GETUSERDETAILSONLY} from '../API_URLS'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSearch } from '@fortawesome/free-solid-svg-icons'
+    
+
 import './header.css'
    
 class UserDetails extends Component{
@@ -101,7 +104,7 @@ class UserDetails extends Component{
                 <div>
                   <InputGroup size="lg">
                     <InputGroup.Prepend>
-                      <InputGroup.Text id="inputGroup-sizing-lg">Email</InputGroup.Text>
+                      <InputGroup.Text id="inputGroup-sizing-lg"><FontAwesomeIcon icon={faSearch}/></InputGroup.Text>
                     </InputGroup.Prepend>
                      <FormControl placeholder="Search by users email" aria-label="Large" aria-describedby="inputGroup-sizing-sm" 
                           onChange={(e) => this.setState({searchEmail: e.target.value})}/>
@@ -182,12 +185,12 @@ class UserDetails extends Component{
                 } 
 
                 {resultDesignation?
-                  <Users_Designation list={resultDesignation}/>
+                  <UsersDesignation list={resultDesignation}/>
                  :null
                 } 
 
                 {resultRole?
-                  <Users_Role list={resultRole}/>
+                  <UsersRole list={resultRole}/>
                  :null
                 }   
             </Container>
@@ -195,12 +198,10 @@ class UserDetails extends Component{
     }
 }
 
-class PersonalInformation extends Component{
-  render(){
-    const{list}=this.props;
+function PersonalInformation({list}){
     return(
       <Row className="mt-2">
-      <Col md={6}>
+      <Col md={12}>
        <Card style={{ width: '68rem' }} className="text-center mt-2" border="danger">
          <Card.Header as="h5">PERSONAL INFORMATION</Card.Header>
          <Card.Body>
@@ -247,15 +248,11 @@ class PersonalInformation extends Component{
          </Card.Body>
        </Card>
       </Col>
-      <Col md={3}></Col>
      </Row>
     );
-  }
 }
 
-class NationalIdentificationCards extends Component{
-  render(){
-    const{list}=this.props;
+function NationalIdentificationCards({list}){
     return(
       <Row className="mt-2">
                    <Col md={6}>
@@ -295,12 +292,9 @@ class NationalIdentificationCards extends Component{
                    <Col md={3}></Col>
                   </Row>
     );
-  }
 }
 
-class EmploymentDetails extends Component{
-  render(){
-    const{list} = this.props;
+function EmploymentDetails({list}){
     return(
       <Row className="mt-2">
                    <Col md={6}>
@@ -327,12 +321,9 @@ class EmploymentDetails extends Component{
                    <Col md={3}></Col>
                   </Row>
     );
-  }
 }
 
-class BankDetails extends Component{
-  render(){
-    const{list}=this.props;
+function BankDetails({list}){
     return(
       <Row className="mt-2">
                 <Col md={6}>
@@ -355,12 +346,9 @@ class BankDetails extends Component{
                 <Col md={3}></Col>
                </Row>
     );
-  }
 }
 
-class BenefitsforUser extends Component{
-  render(){
-    const{list}=this.props;
+function BenefitsforUser({list}){
     return(
       <Row className="mt-2">
                   <Col md={6}>
@@ -407,12 +395,9 @@ class BenefitsforUser extends Component{
                   <Col md={3}></Col>
                  </Row>
     );
-  }
 }
 
-class UsersDepartment extends Component{
-  render(){
-    const{list}=this.props;
+function UsersDepartment({list}){
     return(
       <Row className="mt-2">
                   <Col md={6}>
@@ -441,12 +426,9 @@ class UsersDepartment extends Component{
                   <Col md={3}></Col>
                  </Row>
     );
-  }
 }
 
-class Users_Designation extends Component{
-  render(){
-    const{list} = this.props;
+function UsersDesignation({list}){
     return(
       <Row className="mt-2">
                    <Col md={6}>
@@ -480,12 +462,9 @@ class Users_Designation extends Component{
                   <Col md={3}></Col>
                  </Row>
     );
-  }
 }
 
-class Users_Role extends Component{
-  render(){
-    const{list} = this.props;
+function UsersRole({list}){
     return(
       <Row className="mt-2">
       <Col md={6}>
@@ -512,7 +491,6 @@ class Users_Role extends Component{
       <Col md={3}></Col>
      </Row>
     );
-  }
 }
 
 export default UserDetails;

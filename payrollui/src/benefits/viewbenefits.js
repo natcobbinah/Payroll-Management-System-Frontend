@@ -6,6 +6,7 @@ import {Container,Button,Table,Alert, Form,Col,Modal} from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight,faArrowLeft,faEdit,faTrash,faPlus} from '@fortawesome/free-solid-svg-icons'
     
+import {fetchBenefitAll} from '../API_URLS/apiCalls'
 
 class ViewBenefits extends Component{
     constructor(props){
@@ -68,7 +69,9 @@ class ViewBenefits extends Component{
     }
 
     fetchAllBenefits(page = 0){
-        axios.get(`${PATHBASE}${PATH_GETALL_BENEFITS}?${PARAM_PAGE}${page}`)
+       /*  axios.get(`${PATHBASE}${PATH_GETALL_BENEFITS}?${PARAM_PAGE}${page}`) */
+            //code refactoring performed here
+             fetchBenefitAll(page)
              .then(result => this.setState({result: result.data}))
              .catch(error => this.setState({error}));
     }

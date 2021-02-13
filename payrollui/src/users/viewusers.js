@@ -3,9 +3,18 @@ import React,{Component} from  'react'
 import axios from 'axios'
 import {PATHBASE,PATHGETALLUSERS,PARAM_PAGE,PATH_DELETEUSER
  ,PARAM_DELETE,PATH_SENDLOGINDETAILS_GMAIL,PATH_PATCH_EDITUSER} from '../API_URLS'
-import {Table} from 'react-bootstrap'
+import {Table,InputGroup,FormControl} from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowRight,faArrowLeft,faEdit,faTrash, faToggleOn, faMailBulk } from '@fortawesome/free-solid-svg-icons'
+import { faArrowRight,faArrowLeft,faEdit,faTrash, faToggleOn, faMailBulk, faSearch, faToggleOff } from '@fortawesome/free-solid-svg-icons'
+
+import {fetchUsersAll} from '../API_URLS/apiCalls'
+
+
+const searchForUser = searchUser => user =>
+    user.name.toLowerCase().includes(searchUser.toLowerCase()) || 
+    user.email.toLowerCase().includes(searchUser.toLowerCase()) ||
+    user.employeeid.toLowerCase().includes(searchUser.toLowerCase())
+    ;
 
 class ViewUsers extends Component{
     constructor(props){
@@ -15,6 +24,9 @@ class ViewUsers extends Component{
             //retrieve users attributes
             result:null,
             error:null,
+
+            //searching for user in searchbar
+            searchUser:'',
 
             //delete user attributes
             resultDel:null,
@@ -36,21 +48,31 @@ class ViewUsers extends Component{
             //update user atttributes
             onUpdateSuccess:null,
             onUpdateError:null,
+
+            //toggling to disable or enable user state
+            isEnabled: true,
+            userEnableorDisableValue:'',
         }
 
-        this.fetchAllUsers = this.fetchAllUsers.bind(this);
+        //this.fetchAllUsers = this.fetchAllUsers.bind(this);
         this.onDelete = this.onDelete.bind(this);
         this.onSelected = this.onSelected.bind(this);
         this.SendLoginDetails = this.SendLoginDetails.bind(this);
         this.onEditUser = this.onEditUser.bind(this);
         this.updateUser = this.updateUser.bind(this);
+        this.onDisableUser = this.onDisableUser.bind(this);
     }
     
     fetchAllUsers(page = 0){
-        axios.get(`${PATHBASE}${PATHGETALLUSERS}?${PARAM_PAGE}${page}`)
+       /*  axios.get(`${PATHBASE}${PATHGETALLUSERS}?${PARAM_PAGE}${page}`)
+             .then(result => this.setState({result: result.data}))
+             .then(error => this.setState({error})); */
+
+             //code refactoring performed here
+             fetchUsersAll(page)
              .then(result => this.setState({result: result.data}))
              .then(error => this.setState({error}));
-    }
+   }
 
     onSelected(id){
         const{userstoDisable}=this.state;
@@ -58,8 +80,8 @@ class ViewUsers extends Component{
     }
 
     onDelete(id){
-        const{userstoDisable,result}=this.state;
-        if(userstoDisable[0] === id){
+        const{userstoDisable}=this.state;
+       if(userstoDisable[0] === id){
             axios.get(`${PATHBASE}${PATH_DELETEUSER}?${PARAM_DELETE}${id}`)
                  .then(resultDel => this.setState({resultDel: resultDel.data}))
                  .then(errorDel => this.setState({errorDel}))
@@ -68,7 +90,14 @@ class ViewUsers extends Component{
         this.fetchAllUsers();
         }else{
             window.alert("You need to select immediate checkbox before you can delete")
-        }
+        } 
+    }
+
+    onDisableUser(id){
+        this.setState(prevState => ({
+            isEnabled : !prevState.isEnabled,
+            userEnableorDisableValue: id,
+        }))
     }
 
     SendLoginDetails(email,password){
@@ -157,21 +186,37 @@ class ViewUsers extends Component{
     }
 
     componentDidMount(){
-        this.fetchAllUsers();
+        this.fetchAllUsers();  
     }
    
     render(){
         const{result,error,resultDel,errorDel, page = 0,show,
         loginDetailSent,loginDetailsError,showModal, onUpdateSuccess,
-        onUpdateError,
+        onUpdateError, 
+
+        //enable or disabling user attribute
+        userEnableorDisableValue,
         
         //user data attributes
         address,city,email,employeeid,employeelevel,password,phonenumber,bankaccountnumber,birthdate,
         gender,hiredate,maritalstatus,birthcertid,driverslicenseid,passportid,ssnitid,votersid,name,tinnumber,
-        marriagecertid,   
+        marriagecertid, searchUser  
         } = this.state;
         return(
             <Container fluid>
+                <div className="my-3">
+                   <InputGroup size="lg">
+                    <InputGroup.Prepend>
+                      <InputGroup.Text id="inputGroup-sizing-lg"><FontAwesomeIcon icon={faSearch}/></InputGroup.Text>
+                    </InputGroup.Prepend>
+                     <FormControl placeholder="Search by users name/email/employeeid" aria-label="Large" aria-describedby="inputGroup-sizing-sm" 
+                          onChange={(e) => this.setState({searchUser: e.target.value})}/>
+                     <InputGroup.Append>
+                     <Button variant="secondary" onClick={this.onSearchSubmit}>Search</Button> 
+                     </InputGroup.Append>
+                  </InputGroup>
+                 </div>
+
                 {error?
                 <Alert show={show} variant="danger" onClose={(event) => this.setState({show:false})} dismissible>
                     <Alert.Heading>Unsuccessful Fetching User Records</Alert.Heading>
@@ -218,24 +263,27 @@ class ViewUsers extends Component{
                             <th>EmployeeLevel</th>
                             <th>BankAccountNo</th>
                             <th>HireDate</th>
-                            <th>SSNITID</th>
+                            <th>EMAIL</th>
                             <th>NAME</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {result.content.map(user => 
+                        {result.content.filter(searchForUser(searchUser)).map(user => 
                             <tr key={user.id}>
                                 <td>{user.employeeid}</td>
                                 <td>{user.employeelevel}</td>
                                 <td>{user.bankaccountnumber}</td>
                                 <td>{user.hiredate}</td>
-                                <td>{user.ssnitid}</td>
+                                <td>{user.email}</td>
                                 <td>{user.name}</td>
                                 <td>
                                     <input type="checkbox" className="mx-2" onChange={() => this.onSelected(user.id)}/>
-                                    <Button variant="primary mx-1" onClick={() => this.fetchAllUsers(page - 1)}>
-                                      <FontAwesomeIcon icon={faToggleOn}/>
+                                    <Button variant="primary mx-1" onClick={() => this.onDisableUser(user.id)}>
+                                        {userEnableorDisableValue == user.id ?
+                                            <FontAwesomeIcon icon={faToggleOff}/>
+                                            :<FontAwesomeIcon icon={faToggleOn}/>                     
+                                        }
                                     </Button>
                                     <Button variant="secondary mx-1" onClick={() => this.onEditUser(user.id,user.address,user.city,user.email,
                                         user.employeeid,user.employeelevel,user.enabled,user.password,user.phonenumber,
@@ -268,8 +316,8 @@ class ViewUsers extends Component{
                     Prev
                 </Button>
                 <Button variant="primary mx-3" onClick={() => this.fetchAllUsers(page + 1)}>
+                   Next
                    <FontAwesomeIcon icon={faArrowRight}/>
-                    Next
                 </Button>
 
                 {/* launch modal on edit button clicked */}
@@ -403,5 +451,6 @@ class ViewUsers extends Component{
         );
     }
 }
+
 
 export default ViewUsers

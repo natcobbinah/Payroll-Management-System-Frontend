@@ -9,6 +9,9 @@ export const PATH_DELETEUSER = '/test/deleteusers';
 export const PARAM_DELETE = 'values=';
 export const PATH_SENDLOGINDETAILS_GMAIL ='/test/sendLoginCredentials';
 export const PATH_PATCH_EDITUSER = '/test/user';
+export const PATH_USER_LOGIN = '/test/userLogin'
+export const loginEmail ='email=';
+export const loginPassword = 'password=';
 
 //ROLES
 export const PATH_GET_ROLES = '/test/role';
@@ -51,11 +54,6 @@ export const PATH_GETUSERDEPARTMENTONLY = '/test/getAllUserDepartmentsOnly';
 export const PATH_GETUSERDESIGNATIONSONLY = '/test/getAllUserDesignationOnly';
 export const PATH_GETUSERDETAILSONLY = '/test/getAllUserInfoOnly';
 
-//test/getAllUserRolesOnly/{email}
-//test/getAllUserBenefitsOnly/{email}
-//test/getAllUserDepartmentsOnly/{email}
-//test/getAllUserDesignationOnly/{email}
-//test/getAllUserInfoOnly/{email}
 //end new endpoints corrected
 
 export const PATH_DISABLEUSER = '/test/disableusers';

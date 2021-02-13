@@ -4,7 +4,7 @@ import {PATHBASE,PATH_GETALL_BENEFITS,PATHGETALLUSERS,
         PARAM_PAGE,PATH_ADD_USERBENEFIT} from '../API_URLS';
 import {Form,Col,Container,Button,Alert} from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowRight,faArrowLeft,faEdit,faTrash,faPlus,faCoffee} from '@fortawesome/free-solid-svg-icons'
+import { faArrowRight,faArrowLeft,faCoffee} from '@fortawesome/free-solid-svg-icons'
 
 const searchForUser = searchUser => user =>
     user.name.toLowerCase().includes(searchUser.toLowerCase());

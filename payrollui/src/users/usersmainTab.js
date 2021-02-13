@@ -1,6 +1,5 @@
 import React,{Component} from 'react'
-import {Tabs,Tab,Nav,Col,Row,
-    TabContainer,TabContent,TabPane } from 'react-bootstrap'
+import {Tab,Nav,Col,Row, } from 'react-bootstrap'
 import ViewUsers from './viewusers'
 import AddUser from './adduser'
 import UserDetails from './userdetails'
