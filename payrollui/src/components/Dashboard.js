@@ -35,11 +35,11 @@ class Dashboard extends Component{
             </Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
-                <Nav className="mr-auto">
-                    PAYROLL MANAGEMENT SYSTEM
+                <Nav className="headertitle mr-5">
+                    AMALITECH PAYROLL MANAGEMENT SYSTEM
                 </Nav>
-                    <Nav>
-                    <NavDropdown title="Settings" id="collasible-nav-dropdown">
+                    <Nav className="mx-auto">
+                    <NavDropdown  title="Settings" id="collasible-nav-dropdown">
                         <NavDropdown.Item>
                             <Link to="/">
                                  Logout
@@ -55,8 +55,8 @@ class Dashboard extends Component{
             </Navbar.Collapse>
             </Navbar> 
 
-            <Tabs className="tab my-3">
-                <Tab  eventKey="users" title="Users">
+            <Tabs  className="tab my-3">
+                <Tab className="subtab" eventKey="users" title="Users">
                    <UsersMain/>
                 </Tab>
                 <Tab  eventKey="roles" title="Roles">

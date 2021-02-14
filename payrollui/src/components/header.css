@@ -1,6 +1,6 @@
 .navbar-custom {
   background-color: #d95a27;
-  height: 10vh;
+  height: 14vh;
 }
 
 .amalicon {
@@ -10,4 +10,14 @@
 
 .tab {
   background-color: #d95a27;
+}
+
+.subtab > title {
+  color: white;
+}
+
+.headertitle{
+  font-size: 2rem;
+  color:white;
+  font-weight: bold;
 }
