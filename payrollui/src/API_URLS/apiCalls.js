@@ -4,7 +4,7 @@ import {PATHBASE,PATHGETALLUSERS,PATH_GET_ROLES,PATH_GET_DEPARTMENT,
 import axios from 'axios'
 
 //USERS===================================================================================
-export  function fetchUsersAll(page = 0){
+export  function fetchUsersAll(page){
     return(
         axios.get(`${PATHBASE}${PATHGETALLUSERS}?${PARAM_PAGE}${page}`)
     )   

@@ -3,7 +3,7 @@ import React,{Component} from  'react'
 import axios from 'axios'
 import {PATHBASE,PATHGETALLUSERS,PARAM_PAGE,PATH_DELETEUSER
  ,PARAM_DELETE,PATH_SENDLOGINDETAILS_GMAIL,PATH_PATCH_EDITUSER} from '../API_URLS'
-import {Table,InputGroup,FormControl} from 'react-bootstrap'
+import {Table,InputGroup,FormControl,Pagination} from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight,faArrowLeft,faEdit,faTrash, faToggleOn, faMailBulk, faSearch, faToggleOff } from '@fortawesome/free-solid-svg-icons'
 
@@ -38,6 +38,7 @@ class ViewUsers extends Component{
 
             //alert attributes
             show:true,
+            showlogindetialsSent:true,
 
             //modal attributes
             showModal:false,
@@ -54,7 +55,7 @@ class ViewUsers extends Component{
             userEnableorDisableValue:'',
         }
 
-        //this.fetchAllUsers = this.fetchAllUsers.bind(this);
+        this.fetchAllUsers = this.fetchAllUsers.bind(this);
         this.onDelete = this.onDelete.bind(this);
         this.onSelected = this.onSelected.bind(this);
         this.SendLoginDetails = this.SendLoginDetails.bind(this);
@@ -62,8 +63,8 @@ class ViewUsers extends Component{
         this.updateUser = this.updateUser.bind(this);
         this.onDisableUser = this.onDisableUser.bind(this);
     }
-    
-    fetchAllUsers(page = 0){
+
+    fetchAllUsers(page){
        /*  axios.get(`${PATHBASE}${PATHGETALLUSERS}?${PARAM_PAGE}${page}`)
              .then(result => this.setState({result: result.data}))
              .then(error => this.setState({error})); */
@@ -190,7 +191,7 @@ class ViewUsers extends Component{
     }
    
     render(){
-        const{result,error,resultDel,errorDel, page = 0,show,
+        const{result,error,resultDel,errorDel, page = 0,show,showlogindetialsSent,
         loginDetailSent,loginDetailsError,showModal, onUpdateSuccess,
         onUpdateError, 
 
@@ -202,6 +203,7 @@ class ViewUsers extends Component{
         gender,hiredate,maritalstatus,birthcertid,driverslicenseid,passportid,ssnitid,votersid,name,tinnumber,
         marriagecertid, searchUser  
         } = this.state;
+
         return(
             <Container fluid>
                 <div className="my-3">
@@ -241,19 +243,20 @@ class ViewUsers extends Component{
                 }
 
                 {loginDetailSent?
-                <Alert show={show} variant="success" onClose={(event) => this.setState({show:false})} dismissible>
+                <Alert show={showlogindetialsSent} variant="success" onClose={(event) => this.setState({showlogindetialsSent:false})} dismissible>
                     <Alert.Heading>LoginCredentials Sent Successfully</Alert.Heading>
                 </Alert> 
                  : null
                 }
 
                 {loginDetailsError?
-                <Alert show={show} variant="danger" onClose={(event) => this.setState({show:false})} dismissible>
+
+                <Alert show={showlogindetialsSent} variant="danger" onClose={(event) => this.setState({showlogindetialsSent:false})} dismissible>
                     <Alert.Heading>Sending LoginCredentials  UnSuccessfully</Alert.Heading>
                     <p>Email might be wrong: or Server might be down</p>
                 </Alert> 
                  : null
-                }
+                }             
 
                 {result?
                   <Table responsive="sm" striped bordered hover size="sm">
@@ -280,7 +283,7 @@ class ViewUsers extends Component{
                                 <td>
                                     <input type="checkbox" className="mx-2" onChange={() => this.onSelected(user.id)}/>
                                     <Button variant="primary mx-1" onClick={() => this.onDisableUser(user.id)}>
-                                        {userEnableorDisableValue == user.id ?
+                                        {userEnableorDisableValue === user.id ?
                                             <FontAwesomeIcon icon={faToggleOff}/>
                                             :<FontAwesomeIcon icon={faToggleOn}/>                     
                                         }
@@ -311,14 +314,26 @@ class ViewUsers extends Component{
                      Loading...
                  </Button>
                 }
-                <Button variant="primary" onClick={() => this.fetchAllUsers(page - 1)}>
+                {/* <Button variant="primary" onClick={() => this.fetchAllUsers(page - 1)}>
                     <FontAwesomeIcon icon={faArrowLeft}/>
                     Prev
                 </Button>
                 <Button variant="primary mx-3" onClick={() => this.fetchAllUsers(page + 1)}>
                    Next
                    <FontAwesomeIcon icon={faArrowRight}/>
-                </Button>
+                </Button> */}
+
+                {result? 
+                     <PaginationInfo totalPages={result.totalPages} 
+                     totalElements={result.totalElements}
+                     totalSize={result.size} onClickFirstRecord={() => this.fetchAllUsers(page)}
+                     onClickLastRecord={() => this.fetchAllUsers(result.totalPages - 1)}
+                     onClickNextRecord={() => this.fetchAllUsers(page + 1)}
+                     onClickPreviousRecord={() => this.fetchAllUsers(page - 1)}/>
+                     :
+                     null
+                }
+
 
                 {/* launch modal on edit button clicked */}
                 <Modal show={showModal} size="lg" onHide={(event) => this.setState({showModal: false})} aria-labelledby="contained-modal-title-vcenter">
@@ -450,6 +465,39 @@ class ViewUsers extends Component{
             </Container>
         );
     }
+}
+
+function  PaginationInfo({totalPages,totalElements,totalSize,
+                          onClickFirstRecord,onClickLastRecord,onClickNextRecord,
+                          onClickPreviousRecord}){
+     //pagination
+     let active = 1;
+     let items = [];
+     for(let number=1; number <= totalPages; number++){
+         items.push(number);
+     }
+
+    return(
+        <div>
+          <p>Total Records {totalElements}</p>
+          <Pagination>
+              <Pagination.First onClick={onClickFirstRecord}/>
+              {items.map(pagenumber => (
+                  <Pagination.Item key={pagenumber} active={pagenumber === active}
+                  onClick={pagenumber === 1?
+                           onClickFirstRecord:
+                           pagenumber === totalPages?
+                           onClickLastRecord:
+                           onClickNextRecord
+                        }>
+
+                  {pagenumber}
+                </Pagination.Item>
+              ))}
+              <Pagination.Last onClick={onClickLastRecord}/>
+          </Pagination>
+       </div>
+    )
 }
 
 
