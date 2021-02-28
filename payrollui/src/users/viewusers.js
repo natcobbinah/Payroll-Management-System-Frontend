@@ -5,7 +5,7 @@ import {PATHBASE,PATHGETALLUSERS,PARAM_PAGE,PATH_DELETEUSER
  ,PARAM_DELETE,PATH_SENDLOGINDETAILS_GMAIL,PATH_PATCH_EDITUSER} from '../API_URLS'
 import {Table,InputGroup,FormControl,Pagination} from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowRight,faArrowLeft,faEdit,faTrash, faToggleOn, faMailBulk, faSearch, faToggleOff } from '@fortawesome/free-solid-svg-icons'
+import { faArrowRight,faArrowLeft,faEdit,faTrash, faToggleOn, faMailBulk, faSearch, faToggleOff, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 
 import {fetchUsersAll} from '../API_URLS/apiCalls'
 
@@ -44,7 +44,8 @@ class ViewUsers extends Component{
             showModal:false,
 
             //checkbox attribute
-            userstoDisable:[],
+            userstoDisable:new Map(),
+            currentUserstoDelete:new Array(),
 
             //update user atttributes
             onUpdateSuccess:null,
@@ -62,6 +63,7 @@ class ViewUsers extends Component{
         this.onEditUser = this.onEditUser.bind(this);
         this.updateUser = this.updateUser.bind(this);
         this.onDisableUser = this.onDisableUser.bind(this);
+        this.deleteAllSelected = this.deleteAllSelected.bind(this);
     }
 
     fetchAllUsers(page){
@@ -75,23 +77,44 @@ class ViewUsers extends Component{
              .then(error => this.setState({error}));
    }
 
-    onSelected(id){
+    onSelected(id,event){
         const{userstoDisable}=this.state;
-        userstoDisable.push(id);
+        const userid = id;
+        const isChecked = event.target.checked;
+        this.setState(prevState => ({
+            userstoDisable: prevState.userstoDisable.set(userid,isChecked)
+        }))
+       /*  userstoDisable.push(id); 
+       userstoDisable.concat(id,event)*/
+      /*  console.log(userstoDisable) */
+    }
+
+    deleteAllSelected(){
+        const{userstoDisable,
+            currentUserstoDelete}=this.state;
+        for(const[key,value] of userstoDisable.entries()){
+            if(value === true){
+                currentUserstoDelete.push(key);
+            }
+        }
+        /* console.log(currentUserstoDelete) */
+        axios.get(`${PATHBASE}${PATH_DELETEUSER}?${PARAM_DELETE}${currentUserstoDelete}`)
+             .then(resultDel => this.setState({resultDel: resultDel.data}))
+             .then(errorDel => this.setState({errorDel}))
     }
 
     onDelete(id){
-        const{userstoDisable}=this.state;
-       if(userstoDisable[0] === id){
+       const{userstoDisable}=this.state;
+      /*  console.log(userstoDisable.get(id)) */
+       if(userstoDisable.get(id) === true){
             axios.get(`${PATHBASE}${PATH_DELETEUSER}?${PARAM_DELETE}${id}`)
                  .then(resultDel => this.setState({resultDel: resultDel.data}))
                  .then(errorDel => this.setState({errorDel}))
-            userstoDisable.pop();
 
         this.fetchAllUsers();
         }else{
             window.alert("You need to select immediate checkbox before you can delete")
-        } 
+        }  
     }
 
     onDisableUser(id){
@@ -196,13 +219,20 @@ class ViewUsers extends Component{
         onUpdateError, 
 
         //enable or disabling user attribute
-        userEnableorDisableValue,
+        userEnableorDisableValue,userstoDisable,
         
         //user data attributes
         address,city,email,employeeid,employeelevel,password,phonenumber,bankaccountnumber,birthdate,
         gender,hiredate,maritalstatus,birthcertid,driverslicenseid,passportid,ssnitid,votersid,name,tinnumber,
         marriagecertid, searchUser  
         } = this.state;
+
+        const currentlySelectedUserstoDelete = new Array();
+        for(const[key,value] of userstoDisable.entries()){
+            if(value === true){
+                currentlySelectedUserstoDelete.push(key);
+            }
+        }
 
         return(
             <Container fluid>
@@ -237,7 +267,7 @@ class ViewUsers extends Component{
 
                 {resultDel?
                 <Alert show={show} variant="success" onClose={(event) => this.setState({show:false})} dismissible>
-                    <Alert.Heading>User Deleted Successfully</Alert.Heading>
+                    <Alert.Heading>User(s) Deleted Successfully</Alert.Heading>
                 </Alert> 
                  : null
                 }
@@ -256,7 +286,16 @@ class ViewUsers extends Component{
                     <p>Email might be wrong: or Server might be down</p>
                 </Alert> 
                  : null
-                }             
+                }  
+
+                {/* Delete all selected button */}   
+                {currentlySelectedUserstoDelete.length > 1 ?
+                 <Button variant="danger mx-1" onClick={this.deleteAllSelected}>
+                     <FontAwesomeIcon icon={faTrashAlt}/> Delete All Selected
+                 </Button> :
+                 null
+                }
+                {/* End Delete all selected button */}      
 
                 {result?
                   <Table responsive="sm" striped bordered hover size="sm">
@@ -281,7 +320,7 @@ class ViewUsers extends Component{
                                 <td>{user.email}</td>
                                 <td>{user.name}</td>
                                 <td>
-                                    <input type="checkbox" className="mx-2" onChange={() => this.onSelected(user.id)}/>
+                                    <input type="checkbox" className="mx-2" onChange={(event) => this.onSelected(user.id,event)}/>
                                     <Button variant="primary mx-1" onClick={() => this.onDisableUser(user.id)}>
                                         {userEnableorDisableValue === user.id ?
                                             <FontAwesomeIcon icon={faToggleOff}/>

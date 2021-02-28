@@ -55,7 +55,7 @@ class Dashboard extends Component{
             </Navbar.Collapse>
             </Navbar> 
 
-            <Tabs  className="tab my-3">
+            <Tabs  className="tab mt-4 my-3">
                 <Tab className="subtab" eventKey="users" title="Users">
                    <UsersMain/>
                 </Tab>

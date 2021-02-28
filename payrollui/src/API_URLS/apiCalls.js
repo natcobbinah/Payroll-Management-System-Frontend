@@ -10,6 +10,12 @@ export  function fetchUsersAll(page){
     )   
 }
 
+export function deleteSelectedUsers(){
+    return(
+        axios.get(`${PATHBASE}${PATH_DELETEUSER}?${PARAM_DELETE}`)
+    )
+}
+
 //ROLES===================================================================================
 export   function fetchRolesAll(page = 0){
     return (
